@@ -1,0 +1,4 @@
+arch: s390x
+services:
+  - docker
+script: docker build -f Dockerfile .  
