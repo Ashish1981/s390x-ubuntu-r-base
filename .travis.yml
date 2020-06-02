@@ -1,4 +1,13 @@
 arch: s390x
 services:
-  - docker
-script: docker build -f Dockerfile .  
+- docker
+script: docker build -f Dockerfile .
+notifications:
+  slack:
+    secure: ocd1gHRGVauBPSXrTNLRWlxvOtWU9hT3phM2Ylfm9/3xJPw/tLh3taX56bEZYSiqtIE7Wmccxwq3nGtglgaDLNm0GLbQp7T0MS96GwXMyQRY4hoHrkoTmQjBVwSDR691C6/OcywlQ6yBmMv0zhtoqOkN04vowUJEQQ1RsYNg/OCbdaJnijKcQNriNIJRWa1/TJU6vKoLIDzBxjD0XGc9zen0gXOViY1bPkb8fQSuky2fROagXS02WX03IK/Xx3nY92DzW9UsN8up2dYlwmKAi7HLDaYFcfapszsobi3+CjWNCBo+xB9IksXQ0+877ErWRcgTmbhe3ENhCRM267y3GfgePju3XJo5gexl44ydzx3IzhDZOM9GwU3uDQkwk7gBe2/mRtdH/70G4N0iSbZL1HSDX/ZnqKCfTum9Mi/zZTanvKQyTakePw9Suhu00A50gVA+DY19nv/l5ZWsj+y9bade2qJdJVlNHwJoezgviXoUW069ZEja/c2jIoGqY3nt12l6SjEj5/gYctLh1x887oLko/chLbL4SHcjftWtWD4+zQ6K64gsXrb0H8FVZQYn7B5NR6WmhlZGP/+z+HGATWqk6V0MQ6xd6iCp+MdhcMhhF2nbtlMYFv8q0/Odp0FAPhFVcAnPF8TTG9vjBNg12MSiz2V2It3H1J7u6UPxEjg=
+    on_success: always  # change: send a notification when the build status changes.
+    on_failure: always  # always: always send a notification.
+    template:
+      - "Repo `%{repository_slug}` *%{result}* build (<%{build_url}|#%{build_number}>) for commit (<%{compare_url}|%{commit}>) on branch `%{branch}`."
+      - "Execution time: *%{duration}*"
+      - "Message: %{message}"
