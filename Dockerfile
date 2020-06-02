@@ -24,6 +24,8 @@ RUN set -e \
     export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-s390x \
     export PATH=$JAVA_HOME/bin:$PATH 
 
+RUN javac -version    
+
 ## Set a default user. Available via runtime flag `--user docker`
 ## Add user to 'staff' group, granting them write privileges to /usr/local/lib/R/site.library
 ## User should also have & own a home directory (for rstudio or linked volumes to work properly).
@@ -35,13 +37,13 @@ RUN useradd docker \
 RUN set -e \
     export SOURCE_ROOT=/home/docker \
     cd $SOURCE_ROOT 
+
 RUN   wget https://cran.r-project.org/src/base/R-4/R-4.0.0.tar.gz ;\
     tar zxvf R-4.0.0.tar.gz; \
-    mkdir build && cd build ;\
-    ../R-4.0.0/configure --with-x=no --with-pcre1 
-    
-RUN    make ;\
-    make install ;
+    mkdir build && cd build ; \
+    ../R-4.0.0/configure --with-x=no --with-pcre1 ; \
+    make ;  \
+    make install 
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -59,6 +61,11 @@ RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
     && locale-gen en_US.utf8 \
     && /usr/sbin/update-locale LANG=en_US.UTF-8
 
+RUN cd $SOURCE_ROOT/build \
+    sudo apt-get install -y texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-fonts-extra \
+    export LANG="en_US.UTF-8" ; \
+    make check
 
+RUN echo "sessionInfo()" | R --save
 
-RUN javac -version    
+CMD [ "R" ]
