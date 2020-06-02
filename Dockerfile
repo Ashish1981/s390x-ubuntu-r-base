@@ -9,7 +9,8 @@ RUN set -eux; \
     apt-get install -y --no-install-recommends 
  #   apt-get upgrade
 
-RUN ln -fs /usr/share/zoneinfo/US/Pacific-New /etc/localtime && dpkg-reconfigure -f noninteractive tzdata
+RUN DEBIAN_FRONTEND="noninteractive" \
+    apt-get -y install tzdata
 RUN  set -eux; \
                 \
     apt-get install -y wget         \
