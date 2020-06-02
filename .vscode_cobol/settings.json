@@ -1,3 +1,5 @@
 {
+    "travis.repository": "s390x-ubuntu-r-base",
+    "travis.username": "Ashish1981",
     "travis.statusPollingInterval": 30
 }
