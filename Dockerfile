@@ -1,7 +1,7 @@
 FROM docker.io/s390x/ubuntu:18.04
 
 ENV R_BASE_VERSION 4.0.0
-
+ENV SOURCE_ROOT /home/docker 
 ####
 # Update the ubuntu image and load new s/w
 ####
@@ -34,9 +34,9 @@ RUN useradd docker \
     && chown docker:docker /home/docker \
     && addgroup docker staff
 
-RUN set -e \
-    export SOURCE_ROOT=/home/docker \
-    cd $SOURCE_ROOT 
+# RUN set -e \
+#     export SOURCE_ROOT=/home/docker \
+#     cd $SOURCE_ROOT 
 
 RUN cd $SOURCE_ROOT ;\
     wget https://cran.r-project.org/src/base/R-4/R-4.0.0.tar.gz ;\
