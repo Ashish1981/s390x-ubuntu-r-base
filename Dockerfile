@@ -38,9 +38,10 @@ RUN set -e \
     export SOURCE_ROOT=/home/docker \
     cd $SOURCE_ROOT 
 
-RUN   wget https://cran.r-project.org/src/base/R-4/R-4.0.0.tar.gz ;\
+RUN cd $SOURCE_ROOT ;\
+    wget https://cran.r-project.org/src/base/R-4/R-4.0.0.tar.gz ;\
     tar zxvf R-4.0.0.tar.gz; \
-    mkdir build && cd build ; \
+    mkdir -p $SOURCE_ROOT/build && cd $SOURCE_ROOT/build ; \
     ../R-4.0.0/configure --with-x=no --with-pcre1 ; \
     make ;  \
     make install 
@@ -62,7 +63,11 @@ RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
     && /usr/sbin/update-locale LANG=en_US.UTF-8
 
 RUN cd $SOURCE_ROOT/build \
-    sudo apt-get install -y texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-fonts-extra \
+    apt-get install -y  \
+    texlive-latex-base  \
+    texlive-latex-extra  \
+    texlive-fonts-recommended \ 
+    texlive-fonts-extra \
     export LANG="en_US.UTF-8" ; \
     make check
 
