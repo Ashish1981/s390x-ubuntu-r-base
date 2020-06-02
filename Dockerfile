@@ -62,14 +62,14 @@ RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
     && locale-gen en_US.utf8 \
     && /usr/sbin/update-locale LANG=en_US.UTF-8
 
-RUN cd $SOURCE_ROOT/build \
-    apt-get install -y  \
-    texlive-latex-base  \
-    texlive-latex-extra  \
-    texlive-fonts-recommended \ 
-    texlive-fonts-extra \
-    export LANG="en_US.UTF-8" ; \
-    make check
+# RUN cd $SOURCE_ROOT/build \
+#     apt-get install -y  \
+#     texlive-latex-base  \
+#     texlive-latex-extra  \
+#     texlive-fonts-recommended \ 
+#     texlive-fonts-extra \
+#     export LANG="en_US.UTF-8" ; \
+#     make check
 
 RUN echo "sessionInfo()" | R --save
 
