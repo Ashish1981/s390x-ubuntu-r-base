@@ -35,11 +35,12 @@ RUN useradd docker \
 RUN set -e \
     export SOURCE_ROOT=/home/docker \
     cd $SOURCE_ROOT 
-RUN   wget https://cran.r-project.org/src/base/R-4/R-4.0.0.tar.gz \
+RUN   wget https://cran.r-project.org/src/base/R-4/R-4.0.0.tar.gz ;\
     tar zxvf R-4.0.0.tar.gz; \
     mkdir build && cd build ;\
-    ../R-4.0.0/configure --with-x=no --with-pcre1 ; \
-    make ;\
+    ../R-4.0.0/configure --with-x=no --with-pcre1 
+    
+RUN    make ;\
     make install ;
 
 RUN apt-get update \
