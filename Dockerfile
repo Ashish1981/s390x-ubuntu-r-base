@@ -9,8 +9,8 @@ RUN set -eux; \
     \
     savedAptMark="$(apt-mark showmanual)"; \
     apt-get update; \
-    apt-get install -y --no-install-recommends \
- #   apt-get upgrade
+    apt-get install -y --no-install-recommends ; \
+    apt-get upgrade
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt-get -y install tzdata
 RUN  set -eux; \
