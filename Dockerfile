@@ -6,8 +6,8 @@ RUN set -eux; \
     \
     savedAptMark="$(apt-mark showmanual)"; \
     apt-get update; \
-    apt-get install -y --no-install-recommends \
-    apt-get upgrade
+    apt-get install -y --no-install-recommends 
+ #   apt-get upgrade
 
 RUN  set -eux; \
                 \
