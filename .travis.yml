@@ -8,7 +8,3 @@ notifications:
       - secure: jiKO0mWIaCNhw19MEa0APDvXvPMmSeQiTaLwN86WAuCMnIgbZ3c5b9jRA+1NfBVPvLGyxkN2NbXiTyF+6sDepmXw/ztDXxsCEUtobKjyVRmErAM/bo7dNXiSIT6KuZgNo+oyVFiUKeLdBr4oR8o4AA8jqJ6au8M+NtFOTIRmG8Zbbqm8w26zzR8q425A9neEmJYYXXG0YQijvl5THncCKKIc5bXxUh9Vw6iFFKbebHKyvpk00hn5aJFJVWQDTD4tzLYtXBTnjsmK7gWDq9Nm++kYS9MpvIvpTgwxFrLMwXZXoka78jDhSJw+XtSsN/CGrb17gAU1qtX/V0ehYaXsZQJH+vZrCyWbPA9hu7eiZZ51F8MoJj/WaQAmEqk6KOvjAAR/qp5M9rgs0XvILH4AJ/DbKswlw8nUtZb0r/T4Di/BFrvLf4lzVdC3nb8/cKDqly9t5NChjQOOaiZAs4FOZs+v3Uz1nEtuQjbT3HJrgrOyWC19HLExCli5XtdkwW8DugRTATheT9yoIunXdAiABIoxR3dC0sdhazNg01Kyq9X9gWP2+ma8h9sgvc0L+IMm00wLrNG2XMvTk/z1TtlikJ/j6zSoQT4Ujng1a/EGgOTKiK+ga03uwn9JvokCGvqKwFuj1F/N9OaplVZcjHxeETrtjWhxpF6Kc5blPYkE7zU=
     on_success: always  # change: send a notification when the build status changes.
     on_failure: always  # always: always send a notification.
-    template:
-      - "Repo '%{repository_slug}' *%{result}* build (<%{build_url}|#%{build_number}>) for commit (<%{compare_url}|%{commit}>) on branch '%{branch}'."
-      - "Execution time: *%{duration}*"
-      - "Message: %{message}"
