@@ -2,17 +2,13 @@ arch: s390x
 services:
 - docker
 script: docker build -f Dockerfile .
-# notifications:
-#   slack:
-#     secure: ocd1gHRGVauBPSXrTNLRWlxvOtWU9hT3phM2Ylfm9/3xJPw/tLh3taX56bEZYSiqtIE7Wmccxwq3nGtglgaDLNm0GLbQp7T0MS96GwXMyQRY4hoHrkoTmQjBVwSDR691C6/OcywlQ6yBmMv0zhtoqOkN04vowUJEQQ1RsYNg/OCbdaJnijKcQNriNIJRWa1/TJU6vKoLIDzBxjD0XGc9zen0gXOViY1bPkb8fQSuky2fROagXS02WX03IK/Xx3nY92DzW9UsN8up2dYlwmKAi7HLDaYFcfapszsobi3+CjWNCBo+xB9IksXQ0+877ErWRcgTmbhe3ENhCRM267y3GfgePju3XJo5gexl44ydzx3IzhDZOM9GwU3uDQkwk7gBe2/mRtdH/70G4N0iSbZL1HSDX/ZnqKCfTum9Mi/zZTanvKQyTakePw9Suhu00A50gVA+DY19nv/l5ZWsj+y9bade2qJdJVlNHwJoezgviXoUW069ZEja/c2jIoGqY3nt12l6SjEj5/gYctLh1x887oLko/chLbL4SHcjftWtWD4+zQ6K64gsXrb0H8FVZQYn7B5NR6WmhlZGP/+z+HGATWqk6V0MQ6xd6iCp+MdhcMhhF2nbtlMYFv8q0/Odp0FAPhFVcAnPF8TTG9vjBNg12MSiz2V2It3H1J7u6UPxEjg=
 notifications:
   slack:
     rooms:
-	  - gbs-cai:DwJn9EAdIZ5u0MBisMgJ4h8y@Ashish
-	  - gbs-cai:DwJn9EAdIZ5u0MBisMgJ4h8y@shami.gupta
+      - secure: jiKO0mWIaCNhw19MEa0APDvXvPMmSeQiTaLwN86WAuCMnIgbZ3c5b9jRA+1NfBVPvLGyxkN2NbXiTyF+6sDepmXw/ztDXxsCEUtobKjyVRmErAM/bo7dNXiSIT6KuZgNo+oyVFiUKeLdBr4oR8o4AA8jqJ6au8M+NtFOTIRmG8Zbbqm8w26zzR8q425A9neEmJYYXXG0YQijvl5THncCKKIc5bXxUh9Vw6iFFKbebHKyvpk00hn5aJFJVWQDTD4tzLYtXBTnjsmK7gWDq9Nm++kYS9MpvIvpTgwxFrLMwXZXoka78jDhSJw+XtSsN/CGrb17gAU1qtX/V0ehYaXsZQJH+vZrCyWbPA9hu7eiZZ51F8MoJj/WaQAmEqk6KOvjAAR/qp5M9rgs0XvILH4AJ/DbKswlw8nUtZb0r/T4Di/BFrvLf4lzVdC3nb8/cKDqly9t5NChjQOOaiZAs4FOZs+v3Uz1nEtuQjbT3HJrgrOyWC19HLExCli5XtdkwW8DugRTATheT9yoIunXdAiABIoxR3dC0sdhazNg01Kyq9X9gWP2+ma8h9sgvc0L+IMm00wLrNG2XMvTk/z1TtlikJ/j6zSoQT4Ujng1a/EGgOTKiK+ga03uwn9JvokCGvqKwFuj1F/N9OaplVZcjHxeETrtjWhxpF6Kc5blPYkE7zU=
     on_success: always  # change: send a notification when the build status changes.
     on_failure: always  # always: always send a notification.
     template:
-      - "Repo `%{repository_slug}` *%{result}* build (<%{build_url}|#%{build_number}>) for commit (<%{compare_url}|%{commit}>) on branch `%{branch}`."
+      - "Repo '%{repository_slug}' *%{result}* build (<%{build_url}|#%{build_number}>) for commit (<%{compare_url}|%{commit}>) on branch '%{branch}'."
       - "Execution time: *%{duration}*"
       - "Message: %{message}"
