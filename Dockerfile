@@ -62,15 +62,15 @@ RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
     && locale-gen en_GB.UTF-8 \
     && /usr/sbin/update-locale LANG=en_US.UTF-8
 
-# RUN cd $SOURCE_ROOT/build \
-#     apt-get install -y  \
-#     texlive-latex-base  \
-#     texlive-latex-extra  \
-#     texlive-fonts-recommended \ 
-#     texlive-fonts-extra 
+RUN cd $SOURCE_ROOT/build \
+    apt-get install -y  \
+    texlive-latex-base  \
+    texlive-latex-extra  \
+    texlive-fonts-recommended \ 
+    texlive-fonts-extra 
     
-# RUN cd $SOURCE_ROOT/build \
-#     make check
+RUN cd $SOURCE_ROOT/build \
+    make check
 
 RUN echo "sessionInfo()" | R --save \
     && R CMD javareconf
@@ -85,7 +85,7 @@ RUN apt-get update && apt-get install -y \
      
 
 # Download and install R modules
-RUN R -e \"install.packages('shiny', repos='https://cran.rstudio.com/')\"
-# RUN install2.r  rJava
+# RUN R -e \"install.packages('shiny', repos='https://cran.rstudio.com/')\"
+# # RUN install2.r  rJava
 
-CMD [ "R" ]
+# CMD [ "R" ]
