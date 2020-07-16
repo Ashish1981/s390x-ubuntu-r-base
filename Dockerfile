@@ -38,7 +38,7 @@ RUN cd $SOURCE_ROOT ;\
     wget https://cran.r-project.org/src/base/R-3/R-3.6.3.tar.gz ;\
     tar zxvf R-3.6.3.tar.gz; \
     mkdir -p $SOURCE_ROOT/build && cd $SOURCE_ROOT/build ; \
-    $SOURCE_ROOT/R-4.0.0/configure --with-x=no --with-pcre1 ; \
+    $SOURCE_ROOT/R-3.6.3/configure --with-x=no --with-pcre1 ; \
     make ;  \
     make install 
 
