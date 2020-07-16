@@ -1,27 +1,31 @@
 arch: s390x
-services:
-  - docker
-
-script: docker build -t s390x-ubuntu-r-base -f Dockerfile .
-
+#
+script: "echo 'Building Docker image with tags'"  
+#
+after_success:
+  - export DEPLOY_TIMESTAMP=`date +'%Y%m%d-%H%M%S'`
+  - export git_repo=$(echo $TRAVIS_REPO_SLUG |  awk -F"/" '{print tolower($2)}')
+  - docker build -t $git_repo -f Dockerfile .
+  - docker tag  $git_repo "$DOCKER_USERNAME"/$git_repo:$TRAVIS_BRANCH-$DEPLOY_TIMESTAMP-$TRAVIS_BUILD_NUMBER
+  - docker tag  $git_repo "$DOCKER_USERNAME"/$git_repo:latest 
+#
 before_deploy:
-    - docker tag  s390x-ubuntu-r-base  "$DOCKER_USERNAME"/s390x-ubuntu-r-base:latest
-    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin  
-
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+#
 deploy:
   provider: script
+  skip_cleanup: true
   script: 
-     docker push "$DOCKER_USERNAME"/s390x-ubuntu-r-base:latest
+     chmod +x ./scripts/* && ./scripts/dock-r.sh
   on:
     branch: master  
-
 notifications:
   slack: 
     rooms:
     - gbs-cai:8YOiAOuRbt0a2y5He5gkLfWb
     template:
-        - "Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository_slug}@%{branch} by %{author} %{result} in %{duration} :greatsuccess: :success-7318:"  
-        - "Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository_slug}@%{branch} in PR <%{pull_request_url}|#%{pull_request_number}> by %{author} %{result} in %{duration}"
+        - "Build %{repository_slug} <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository_slug}@%{branch} by %{author} %{result} in %{duration}  :greatsuccess: :success-7318:"
+        - "Build %{repository_slug} <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository_slug}@%{branch} in PR <%{pull_request_url}|#%{pull_request_number}> by %{author} %{result} in %{duration} "
     on_success: change # default: always
     on_failure: never  # default: always
     on_start:   change # default: never

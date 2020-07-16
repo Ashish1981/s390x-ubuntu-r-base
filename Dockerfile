@@ -10,9 +10,12 @@ RUN set -eux; \
     savedAptMark="$(apt-mark showmanual)"; \
     apt-get update; \
     apt-get install -y --no-install-recommends ; \
-    apt-get upgrade -y 
+    apt-get upgrade -y \
+    apt-utils
+
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt-get -y install tzdata
+
 RUN  set -eux; \
                 \
     apt-get install -y wget         \
@@ -59,16 +62,28 @@ RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
     && locale-gen en_GB.UTF-8 \
     && /usr/sbin/update-locale LANG=en_US.UTF-8
 
-RUN cd $SOURCE_ROOT/build \
-    apt-get install -y  \
-    texlive-latex-base  \
-    texlive-latex-extra  \
-    texlive-fonts-recommended \ 
-    texlive-fonts-extra 
+# RUN cd $SOURCE_ROOT/build \
+#     apt-get install -y  \
+#     texlive-latex-base  \
+#     texlive-latex-extra  \
+#     texlive-fonts-recommended \ 
+#     texlive-fonts-extra 
     
-RUN cd $SOURCE_ROOT/build \
-    make check
+# RUN cd $SOURCE_ROOT/build \
+#     make check
 
 RUN echo "sessionInfo()" | R --save
+
+RUN apt-get update && apt-get install -y \
+    supervisor \
+    git-core \
+    libsodium-dev \
+    libssl-dev \
+    libcurl4-gnutls-dev \
+    xtail  \
+    && R CMD javareconf 
+
+# Download and install R modules
+RUN install2.r  rJava
 
 CMD [ "R" ]
