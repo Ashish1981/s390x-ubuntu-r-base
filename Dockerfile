@@ -1,6 +1,6 @@
-FROM docker.io/s390x/ubuntu:18.04
+FROM docker.io/ibmjava
 
-ENV R_BASE_VERSION 4.0.0
+ENV R_BASE_VERSION 3.6.3
 ENV SOURCE_ROOT /home/docker 
 ####
 # Update the ubuntu image and load new s/w
@@ -18,10 +18,10 @@ RUN  set -eux; \
     apt-get install -y wget         \
     tar gcc g++ ratfor              \
     gfortran libx11-dev make        \ 
-    r-base libcurl4-openssl-dev     \ 
-    locales openjdk-11-jdk          
+    r-base libcurl4-openssl-dev     
+    # locales openjdk-11-jdk          
 RUN set -e \
-    export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-s390x \
+    # export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-s390x \
     export PATH=$JAVA_HOME/bin:$PATH 
 
 RUN javac -version    
@@ -35,8 +35,8 @@ RUN useradd docker \
     && addgroup docker staff
 
 RUN cd $SOURCE_ROOT ;\
-    wget https://cran.r-project.org/src/base/R-4/R-4.0.0.tar.gz ;\
-    tar zxvf R-4.0.0.tar.gz; \
+    wget https://cran.r-project.org/src/base/R-3/R-3.6.3.tar.gz ;\
+    tar zxvf R-3.6.3.tar.gz; \
     mkdir -p $SOURCE_ROOT/build && cd $SOURCE_ROOT/build ; \
     $SOURCE_ROOT/R-4.0.0/configure --with-x=no --with-pcre1 ; \
     make ;  \
