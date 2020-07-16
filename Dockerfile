@@ -72,7 +72,8 @@ RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
 # RUN cd $SOURCE_ROOT/build \
 #     make check
 
-RUN echo "sessionInfo()" | R --save
+RUN echo "sessionInfo()" | R --save \
+    && R CMD javareconf
 
 RUN apt-get update && apt-get install -y \
     supervisor \
@@ -80,10 +81,11 @@ RUN apt-get update && apt-get install -y \
     libsodium-dev \
     libssl-dev \
     libcurl4-gnutls-dev \
-    xtail  \
-    && R CMD javareconf 
+    xtail  
+     
 
 # Download and install R modules
-RUN install2.r  rJava
+RUN R -e \"install.packages('shiny', repos='https://cran.rstudio.com/')\"
+# RUN install2.r  rJava
 
 CMD [ "R" ]
