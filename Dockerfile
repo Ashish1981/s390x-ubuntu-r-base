@@ -24,7 +24,7 @@ RUN set -e \
     # export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-s390x \
     export PATH=$JAVA_HOME/bin:$PATH 
 
-RUN javac -version    
+RUN java -version    
 
 # Set a default user. Available via runtime flag `--user docker`
 # Add user to 'staff' group, granting them write privileges to /usr/local/lib/R/site.library
