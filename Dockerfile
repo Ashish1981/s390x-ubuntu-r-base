@@ -1,4 +1,4 @@
-FROM docker.io/ibmjava
+FROM docker.io/s390x/ubuntu:18.04
 
 ENV R_BASE_VERSION 3.6.3
 ENV SOURCE_ROOT /home/docker 
@@ -105,7 +105,7 @@ RUN apt-get update && apt-get install -y \
     libbz2-dev \
     clang  \
     ccache     
-    
+
 # Set a default user. Available via runtime flag `--user docker`
 # Add user to 'staff' group, granting them write privileges to /usr/local/lib/R/site.library
 # User should also have & own a home directory (for rstudio or linked volumes to work properly).
