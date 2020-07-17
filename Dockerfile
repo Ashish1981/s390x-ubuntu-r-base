@@ -21,14 +21,91 @@ RUN  set -eux; \
     apt-get install -y wget         \
     tar gcc g++ ratfor              \
     gfortran libx11-dev make        \ 
-    r-base libcurl4-openssl-dev     
-    # locales openjdk-11-jdk          
+    r-base libcurl4-openssl-dev     \
+    locales openjdk-11-jdk          
+
 RUN set -e \
-    # export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-s390x \
+    export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-s390x \
     export PATH=$JAVA_HOME/bin:$PATH 
 
-RUN java -version    
+RUN java -version && \
+    javac -version
 
+RUN apt-get update \
+    && apt-get install -y  \
+    sudo \
+    bash-completion \
+    ca-certificates \
+    file \
+    fonts-texgyre \
+    g++ \
+    gfortran \
+    gsfonts \
+    libblas-dev \
+    libbz2-1.0 \
+    libcurl4 \
+    # libicu63 \
+    # libjpeg62-turbo \
+    libopenblas-dev \
+    libpangocairo-1.0-0 \
+    libpcre3 \
+    libpng16-16 \
+    libreadline7 \
+    libtiff5 \
+    liblzma5 \
+    locales \
+    make \
+    unzip \
+    zip \
+    zlib1g \
+    && echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
+    && locale-gen en_US.utf8 \
+    && /usr/sbin/update-locale LANG=en_US.UTF-8 \
+    && BUILDDEPS="curl \
+    default-jdk \
+    default-jre \
+    libbz2-dev \
+    libcairo2-dev \
+    libcurl4-openssl-dev \
+    libpango1.0-dev \
+    libjpeg-dev \
+    libicu-dev \
+    libpcre3-dev \
+    libpng-dev \
+    libreadline-dev \
+    libtiff5-dev \
+    liblzma-dev \
+    libx11-dev \
+    libxt-dev \
+    perl \
+    tcl8.6-dev \
+    tk8.6-dev \
+    texinfo \
+    texlive-extra-utils \
+    texlive-fonts-recommended \
+    texlive-fonts-extra \
+    texlive-latex-recommended \
+    x11proto-core-dev \
+    xauth \
+    xfonts-base \
+    xvfb \
+    zlib1g-dev" \
+    && apt-get install -y  $BUILDDEPS
+
+RUN apt-get update && apt-get install -y \
+    supervisor \
+    git-core \
+    libsodium-dev \
+    libssl-dev \
+    libcurl4-gnutls-dev \
+    xtail  
+
+RUN apt-get update && apt-get install -y \
+    liblzma-dev \
+    libbz2-dev \
+    clang  \
+    ccache     
+    
 # Set a default user. Available via runtime flag `--user docker`
 # Add user to 'staff' group, granting them write privileges to /usr/local/lib/R/site.library
 # User should also have & own a home directory (for rstudio or linked volumes to work properly).
@@ -71,21 +148,8 @@ RUN cd $SOURCE_ROOT/build \
     
 RUN cd $SOURCE_ROOT/build \
     make check
+ 
+
 
 RUN echo "sessionInfo()" | R --save \
     && R CMD javareconf
-
-RUN apt-get update && apt-get install -y \
-    supervisor \
-    git-core \
-    libsodium-dev \
-    libssl-dev \
-    libcurl4-gnutls-dev \
-    xtail  
-     
-
-# Download and install R modules
-# RUN R -e \"install.packages('shiny', repos='https://cran.rstudio.com/')\"
-# # RUN install2.r  rJava
-
-# CMD [ "R" ]
