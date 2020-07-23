@@ -156,4 +156,6 @@ RUN export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-s390x \
     && export PATH=$JAVA_HOME/bin/:$PATH \
     && setarch s390x R CMD javareconf \ 
     && echo "sessionInfo()" | R --save 
-RUN Rscript -e "install.packages(c('devtools', 'littler'), dependencies = TRUE, repo = 'https://cran.rstudio.com')"    
+RUN Rscript -e "update.packages(checkBuilt=TRUE, ask=FALSE, repos='https://cloud.r-project.org')"
+RUN Rscript -e "install.packages(c('devtools'), dependencies = TRUE, repo = 'https://cloud.r-project.org')"    
+RUN Rscript -e "install.packages(c('littler'), dependencies = TRUE, repo = 'https://cloud.r-project.org')"    
