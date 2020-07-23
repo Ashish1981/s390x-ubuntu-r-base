@@ -118,7 +118,8 @@ RUN cd $SOURCE_ROOT ;\
     wget https://cran.r-project.org/src/base/R-3/R-3.6.3.tar.gz ;\
     tar zxvf R-3.6.3.tar.gz; \
     mkdir -p $SOURCE_ROOT/build && cd $SOURCE_ROOT/build ; \
-    $SOURCE_ROOT/R-3.6.3/configure --with-x=no --with-pcre1 ; \
+    # $SOURCE_ROOT/R-3.6.3/configure --with-x=no --with-pcre1 ; \
+    $SOURCE_ROOT/R-3.6.3/configure ; \
     make ;  \
     make install 
 
@@ -151,5 +152,8 @@ RUN cd $SOURCE_ROOT/build \
  
 
 
-RUN echo "sessionInfo()" | R --save \
-    && R CMD javareconf
+RUN export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-s390x \
+    && export PATH=$JAVA_HOME/bin/:$PATH \
+    && setarch s390x R CMD javareconf \ 
+    && echo "sessionInfo()" | R --save 
+RUN Rscript -e "install.packages(c('devtools', 'littler'), dependencies = TRUE, repo = 'https://cran.rstudio.com')"    
