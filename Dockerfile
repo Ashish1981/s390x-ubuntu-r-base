@@ -1,7 +1,7 @@
-FROM docker.io/s390x/ubuntu:18.04
+FROM docker.io/s390x/ubuntu:20.04
 
 ENV R_BASE_VERSION 3.6.3
-ENV SOURCE_ROOT /home/docker 
+ENV SOURCE_ROOT /home/shiny 
 ####
 # Update the ubuntu image and load new s/w
 ####
@@ -106,13 +106,13 @@ RUN apt-get update && apt-get install -y \
     clang  \
     ccache     
 
-# Set a default user. Available via runtime flag `--user docker`
+# Set a default user. Available via runtime flag `--user shiny`
 # Add user to 'staff' group, granting them write privileges to /usr/local/lib/R/site.library
 # User should also have & own a home directory (for rstudio or linked volumes to work properly).
-RUN useradd docker \
-    && mkdir /home/docker \
-    && chown docker:docker /home/docker \
-    && addgroup docker staff
+RUN useradd shiny \
+    && mkdir /home/shiny \
+    && chown shiny:shiny /home/shiny \
+    && addgroup shiny staff
 
 RUN cd $SOURCE_ROOT ;\
     wget https://cran.r-project.org/src/base/R-3/R-3.6.3.tar.gz ;\
