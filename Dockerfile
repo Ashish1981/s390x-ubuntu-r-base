@@ -131,7 +131,8 @@ RUN apt-get update && apt-get install -y \
     liblzma-dev \
     libbz2-dev \
     clang  \
-    ccache     
+    ccache \
+    libxml2-dev
 
 # Set a default user. Available via runtime flag `--user shiny`
 # Add user to 'staff' group, granting them write privileges to /usr/local/lib/R/site.library
@@ -198,8 +199,8 @@ RUN R -e "update.packages(checkBuilt=TRUE, ask=FALSE, repos='https://cloud.r-pro
 # RUN R -e "install.packages(c('littler'), dependencies = TRUE, repo = 'https://cloud.r-project.org')"    
 # RUN R -e "install.packages('devtools', repos = 'http://cran.us.r-project.org')"
 # RUN R -e "install.packages('littler', repos = 'http://cran.us.r-project.org')"
-RUN R -e "install.packages('devtools', repos = 'https://cloud.r-project.org')"
-RUN R -e "install.packages('littler', repos = 'https://cloud.r-project.org')"
+# RUN R -e "install.packages('devtools', repos = 'https://cloud.r-project.org')"
+# RUN R -e "install.packages('littler', repos = 'https://cloud.r-project.org')"
 RUN R -e "install.packages(c('devtools'), dependencies = TRUE, repo = '$CRAN')"
 #
 RUN R -e "install.packages(c('class'), dependencies = TRUE, repo = '$CRAN')"
