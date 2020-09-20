@@ -153,7 +153,8 @@ RUN cd $SOURCE_ROOT ;\
     # $SOURCE_ROOT/R-3.6.3/configure --with-x=no --with-pcre1 ; \
     $SOURCE_ROOT/R-3.6.3/configure ; \
     make ;  \
-    make install 
+    # make install \
+    make prefix=$SOURCE_ROOT install-libR 
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
