@@ -12,6 +12,29 @@ RUN set -eux; \
     apt-get install -y --no-install-recommends ; \
     apt-get upgrade -y \
     apt-utils
+# Need this to add R repo
+RUN apt-get update && apt-get install -y software-properties-common
+# Install basic stuff and R
+RUN apt-get update && apt-get install -y \
+    sudo \
+    git \
+    vim-tiny \
+    less \
+    wget \
+    r-base \
+    r-base-dev \
+    r-recommended \
+    fonts-texgyre
+
+## https://github.com/rstudio/shiny-server/blob/master/docker/ubuntu16.04/Dockerfile
+RUN echo 'options(\n\
+    repos = c(CRAN = "https://cloud.r-project.org/"),\n\
+    download.file.method = "libcurl",\n\
+    # Detect number of physical cores\n\
+    Ncpus = parallel::detectCores(logical=FALSE)\n\
+    )' >> /etc/R/Rprofile.site
+
+
 
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt-get -y install tzdata
@@ -109,10 +132,19 @@ RUN apt-get update && apt-get install -y \
 # Set a default user. Available via runtime flag `--user shiny`
 # Add user to 'staff' group, granting them write privileges to /usr/local/lib/R/site.library
 # User should also have & own a home directory (for rstudio or linked volumes to work properly).
-RUN useradd shiny \
-    && mkdir /home/shiny \
-    && chown shiny:shiny /home/shiny \
-    && addgroup shiny staff
+
+# RUN useradd shiny \
+#     && mkdir /home/shiny \
+#     && chown shiny:shiny /home/shiny \
+#     && addgroup shiny staff
+
+# Create shiny user with empty password (will have uid and gid 1000)
+RUN useradd --create-home --shell /bin/bash shiny \
+    && passwd shiny -d \
+    && adduser shiny sudo
+
+# Don't require a password for sudo
+RUN sed -i 's/^\(%sudo.*\)ALL$/\1NOPASSWD:ALL/' /etc/sudoers
 
 RUN cd $SOURCE_ROOT ;\
     wget https://cran.r-project.org/src/base/R-3/R-3.6.3.tar.gz ;\
@@ -157,5 +189,9 @@ RUN export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-s390x \
     && setarch s390x R CMD javareconf \ 
     && echo "sessionInfo()" | R --save 
 RUN Rscript -e "update.packages(checkBuilt=TRUE, ask=FALSE, repos='https://cloud.r-project.org')"
-RUN Rscript -e "install.packages(c('devtools'), dependencies = TRUE, repo = 'https://cloud.r-project.org')"    
-RUN Rscript -e "install.packages(c('littler'), dependencies = TRUE, repo = 'https://cloud.r-project.org')"    
+# RUN Rscript -e "install.packages(c('devtools'), dependencies = TRUE, repo = 'https://cloud.r-project.org')"    
+# RUN Rscript -e "install.packages(c('littler'), dependencies = TRUE, repo = 'https://cloud.r-project.org')"    
+# RUN R -e "install.packages('devtools', repos = 'http://cran.us.r-project.org')"
+# RUN R -e "install.packages('littler', repos = 'http://cran.us.r-project.org')"
+RUN R -e "install.packages('devtools', repos = 'https://cloud.r-project.org')"
+RUN R -e "install.packages('littler', repos = 'https://cloud.r-project.org')"
