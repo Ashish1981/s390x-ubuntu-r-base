@@ -50,7 +50,7 @@ RUN apt-get update \
     libpangocairo-1.0-0 \
     libpcre3 \
     libpng16-16 \
-    libreadline7 \
+    ####libreadline7 \ (removed for ubuntu 20.04)
     libtiff5 \
     liblzma5 \
     locales \
