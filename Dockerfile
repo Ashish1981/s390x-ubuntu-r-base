@@ -152,48 +152,53 @@ RUN useradd --create-home --shell /bin/bash shiny \
 RUN sed -i 's/^\(%sudo.*\)ALL$/\1NOPASSWD:ALL/' /etc/sudoers
 
 RUN cd $SOURCE_ROOT ;\
-    wget https://cran.r-project.org/src/base/R-3/R-3.6.3.tar.gz ;\
-    tar zxvf R-3.6.3.tar.gz; \
-    mkdir -p $SOURCE_ROOT/build && cd $SOURCE_ROOT/build ; \
-    # $SOURCE_ROOT/R-3.6.3/configure --with-x=no --with-pcre1 ; \
-    $SOURCE_ROOT/R-3.6.3/configure ; \
-    make ;  \
-    # make install \
-    make prefix=$SOURCE_ROOT install-libR 
-
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-    ed \
-    less \
-    locales \
-    vim-tiny \
-    wget \
-    ca-certificates \
-    fonts-texgyre \
-    && rm -rf /var/lib/apt/lists/*
-
-## Configure default locale, see https://github.com/rocker-org/rocker/issues/19
-RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
-    && locale-gen en_US.utf8 \
-    && locale-gen en_GB.UTF-8 \
-    && /usr/sbin/update-locale LANG=en_US.UTF-8
-
-RUN cd $SOURCE_ROOT/build \
-    apt-get install -y  \
-    texlive-latex-base  \
-    texlive-latex-extra  \
-    texlive-fonts-recommended \ 
-    texlive-fonts-extra 
-    
-RUN cd $SOURCE_ROOT/build \
-    make check
- 
-
+    wget https://raw.githubusercontent.com/linux-on-ibm-z/scripts/master/R/4.0.2/build_r.sh ; \
+    bash build_r.sh
 
 RUN export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-s390x \
     && export PATH=$JAVA_HOME/bin/:$PATH \
     && setarch s390x R CMD javareconf \ 
     && echo "sessionInfo()" | R --save 
+
+# RUN cd $SOURCE_ROOT ;\
+#     wget https://cran.r-project.org/src/base/R-3/R-3.6.3.tar.gz ;\
+#     tar zxvf R-3.6.3.tar.gz; \
+#     mkdir -p $SOURCE_ROOT/build && cd $SOURCE_ROOT/build ; \
+#     # $SOURCE_ROOT/R-3.6.3/configure --with-x=no --with-pcre1 ; \
+#     $SOURCE_ROOT/R-3.6.3/configure ; \
+#     make ;  \
+#     # make install \
+#     make prefix=$SOURCE_ROOT install-libR 
+
+# RUN apt-get update \
+#     && apt-get install -y --no-install-recommends \
+#     ed \
+#     less \
+#     locales \
+#     vim-tiny \
+#     wget \
+#     ca-certificates \
+#     fonts-texgyre \
+#     && rm -rf /var/lib/apt/lists/*
+
+# ## Configure default locale, see https://github.com/rocker-org/rocker/issues/19
+# RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
+#     && locale-gen en_US.utf8 \
+#     && locale-gen en_GB.UTF-8 \
+#     && /usr/sbin/update-locale LANG=en_US.UTF-8
+
+# RUN cd $SOURCE_ROOT/build \
+#     apt-get install -y  \
+#     texlive-latex-base  \
+#     texlive-latex-extra  \
+#     texlive-fonts-recommended \ 
+#     texlive-fonts-extra 
+    
+# RUN cd $SOURCE_ROOT/build \
+#     make check
+ 
+
+
 # RUN R -e "update.packages(checkBuilt=TRUE, ask=FALSE, repos='https://cloud.r-project.org')"
 # # RUN R -e "install.packages(c('devtools'), dependencies = TRUE, repo = 'https://cloud.r-project.org')"    
 # # RUN R -e "install.packages(c('littler'), dependencies = TRUE, repo = 'https://cloud.r-project.org')"    
