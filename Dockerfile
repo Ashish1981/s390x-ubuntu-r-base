@@ -148,39 +148,38 @@ RUN useradd --create-home --shell /bin/bash shiny \
 
 # Don't require a password for sudo
 RUN sed -i 's/^\(%sudo.*\)ALL$/\1NOPASSWD:ALL/' /etc/sudoers
-COPY /scripts/build-r.sh /home/shiny/
 
-RUN chmod + /home/shiny/build-r.sh ; /bin/bash /home/shiny/build-r.sh -y -j large
+# COPY /scripts/build-r.sh /home/shiny/
 
-RUN setarch s390x R CMD javareconf \ 
-    && echo "sessionInfo()" | R --save 
+# RUN chmod + /home/shiny/build-r.sh ; /bin/bash /home/shiny/build-r.sh -y -j large
 
-# RUN cd $SOURCE_ROOT ;\
-#     wget https://cran.r-project.org/src/base/R-3/R-3.6.3.tar.gz ;\
-#     tar zxvf R-3.6.3.tar.gz; \
-#     mkdir -p $SOURCE_ROOT/build && cd $SOURCE_ROOT/build ; \
-#     # $SOURCE_ROOT/R-3.6.3/configure --with-x=no --with-pcre1 ; \
-#     $SOURCE_ROOT/R-3.6.3/configure ; \
-#     make ;  \
-#     # make install \
-#     make prefix=$SOURCE_ROOT install-libR 
 
-# RUN apt-get update \
-#     && apt-get install -y --no-install-recommends \
-#     ed \
-#     less \
-#     locales \
-#     vim-tiny \
-#     wget \
-#     ca-certificates \
-#     fonts-texgyre \
-#     && rm -rf /var/lib/apt/lists/*
+RUN cd $SOURCE_ROOT ;\
+    wget https://cran.r-project.org/src/base/R-3/R-3.6.3.tar.gz ;\
+    tar zxvf R-3.6.3.tar.gz; \
+    mkdir -p $SOURCE_ROOT/build && cd $SOURCE_ROOT/build ; \
+    # $SOURCE_ROOT/R-3.6.3/configure --with-x=no --with-pcre1 ; \
+    $SOURCE_ROOT/R-3.6.3/configure --with-x=no --with-pcre1; \
+    make ;  \
+    # make install \
+    make prefix=$SOURCE_ROOT install-libR 
 
-# ## Configure default locale, see https://github.com/rocker-org/rocker/issues/19
-# RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
-#     && locale-gen en_US.utf8 \
-#     && locale-gen en_GB.UTF-8 \
-#     && /usr/sbin/update-locale LANG=en_US.UTF-8
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    ed \
+    less \
+    locales \
+    vim-tiny \
+    wget \
+    ca-certificates \
+    fonts-texgyre \
+    && rm -rf /var/lib/apt/lists/*
+
+## Configure default locale, see https://github.com/rocker-org/rocker/issues/19
+RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
+    && locale-gen en_US.utf8 \
+    && locale-gen en_GB.UTF-8 \
+    && /usr/sbin/update-locale LANG=en_US.UTF-8
 
 # RUN cd $SOURCE_ROOT/build \
 #     apt-get install -y  \
@@ -189,14 +188,14 @@ RUN setarch s390x R CMD javareconf \
 #     texlive-fonts-recommended \ 
 #     texlive-fonts-extra 
     
-# RUN cd $SOURCE_ROOT/build \
-#     make check
+RUN cd $SOURCE_ROOT/build \
+    make check
   
 
-# RUN export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-s390x \
-#     && export PATH=$JAVA_HOME/bin/:$PATH \
-#     && setarch s390x R CMD javareconf \ 
-#     && echo "sessionInfo()" | R --save 
+RUN export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-s390x \
+    && export PATH=$JAVA_HOME/bin/:$PATH \
+    && setarch s390x R CMD javareconf \ 
+    && echo "sessionInfo()" | R --save 
 
 
 
