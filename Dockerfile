@@ -188,7 +188,7 @@ RUN sed -i 's/^\(%sudo.*\)ALL$/\1NOPASSWD:ALL/' /etc/sudoers
 # RUN cd $SOURCE_ROOT/build \
 #     make check
 COPY /scripts/build-r.sh $SOURCE_ROOT 
-RUN chmod + $SOURCE_ROOT/build-r.sh && bash build-r.sh -y -j large
+RUN chmod + $SOURCE_ROOT/build-r.sh && .$SOURCE_ROOT/build-r.sh -y -j large
 
 # RUN export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-s390x \
 #     && export PATH=$JAVA_HOME/bin/:$PATH \
