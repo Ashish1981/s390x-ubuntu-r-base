@@ -151,9 +151,9 @@ RUN useradd --create-home --shell /bin/bash shiny \
 # Don't require a password for sudo
 RUN sed -i 's/^\(%sudo.*\)ALL$/\1NOPASSWD:ALL/' /etc/sudoers
 
-RUN cd $SOURCE_ROOT ;\
-    wget https://raw.githubusercontent.com/linux-on-ibm-z/scripts/master/R/4.0.2/build_r.sh ; \
-    && ./build_r.sh
+RUN wget https://raw.githubusercontent.com/linux-on-ibm-z/scripts/master/R/4.0.2/build_r.sh -P $SOURCE_ROOT 
+
+RUN chmod +x $SOURCE_ROOT/build_r.sh && ./$SOURCE_ROOT/build_r.sh
 
 RUN export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-s390x \
     && export PATH=$JAVA_HOME/bin/:$PATH \
