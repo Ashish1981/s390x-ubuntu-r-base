@@ -194,62 +194,60 @@ RUN export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-s390x \
     && export PATH=$JAVA_HOME/bin/:$PATH \
     && setarch s390x R CMD javareconf \ 
     && echo "sessionInfo()" | R --save 
-RUN R -e "update.packages(checkBuilt=TRUE, ask=FALSE, repos='https://cloud.r-project.org')"
-# RUN R -e "install.packages(c('devtools'), dependencies = TRUE, repo = 'https://cloud.r-project.org')"    
-# RUN R -e "install.packages(c('littler'), dependencies = TRUE, repo = 'https://cloud.r-project.org')"    
-# RUN R -e "install.packages('devtools', repos = 'http://cran.us.r-project.org')"
-# RUN R -e "install.packages('littler', repos = 'http://cran.us.r-project.org')"
-# RUN R -e "install.packages('devtools', repos = 'https://cloud.r-project.org')"
-# RUN R -e "install.packages('littler', repos = 'https://cloud.r-project.org')"
-RUN R -e "install.packages(c('devtools'), dependencies = TRUE, repo = '$CRAN')"
-#
-RUN R -e "install.packages(c('class'), dependencies = TRUE, repo = '$CRAN')"
-#
-RUN R -e "install.packages(c('zoo'), dependencies = TRUE, repo = '$CRAN')"
-# 
-RUN R -e "install.packages(c('lattice'), dependencies = TRUE, repo = '$CRAN')"
-# 
-RUN R -e "install.packages(c('littler'), dependencies = TRUE, repo = '$CRAN')"
-#
-RUN R -e "install.packages(c('hexbin'), dependencies = TRUE, repo = '$CRAN')"
-# 
-RUN R -e "install.packages(c('rJava'), dependencies = TRUE, repo = '$CRAN')"
-#
-RUN R -e "install.packages(c('RJDBC'), dependencies = TRUE, repo = '$CRAN')"
-#
-RUN R -e "install.packages(c('shiny'), dependencies = TRUE, repo = '$CRAN')"
-#
-RUN R -e "install.packages(c('shinydashboard'), dependencies = TRUE, repo = '$CRAN')"
-#
-RUN R -e "install.packages(c('curl'), dependencies = TRUE, repo = '$CRAN')"
-#
-RUN R -e "install.packages(c('httr'), dependencies = TRUE, repo = '$CRAN')"
-#
-RUN R -e "install.packages(c('jsonlite'), dependencies = TRUE, repo = '$CRAN')"
-#
-RUN R -e "install.packages(c('DT'), dependencies = TRUE, repo = '$CRAN')"
-#
-RUN R -e "install.packages(c('shinyalert'), dependencies = TRUE, repo = '$CRAN')"
-#
-RUN R -e "install.packages(c('stringr'), dependencies = TRUE, repo = '$CRAN')"
-#
-RUN R -e "install.packages(c('dplyr'), dependencies = TRUE, repo = '$CRAN')"
-#
-RUN R -e "install.packages(c('plotly'), dependencies = TRUE, repo = '$CRAN')"
-#
-RUN R -e "install.packages(c('rmarkdown'), dependencies = TRUE, repo = '$CRAN')"
-#
-RUN R -e "install.packages(c('leaflet'), dependencies = TRUE, repo = '$CRAN')"
-#
-RUN R -e "install.packages(c('htmlwidgets'), dependencies = TRUE, repo = '$CRAN')"
-#
-RUN R -e "install.packages(c('data.table'), dependencies = TRUE, repo = '$CRAN')"
-#
-RUN R -e "install.packages(c('shinyjs'), dependencies = TRUE, repo = '$CRAN')"
-#
-RUN R -e "install.packages(c('DBI'), dependencies = TRUE, repo = '$CRAN')"
-#
-RUN R -e "install.packages(c('DBI'), dependencies = TRUE, repo = '$CRAN')"
-#
-RUN R -e "install.packages(c('plumber'), dependencies = TRUE, repo = '$CRAN')"
-#
+# RUN R -e "update.packages(checkBuilt=TRUE, ask=FALSE, repos='https://cloud.r-project.org')"
+# # RUN R -e "install.packages(c('devtools'), dependencies = TRUE, repo = 'https://cloud.r-project.org')"    
+# # RUN R -e "install.packages(c('littler'), dependencies = TRUE, repo = 'https://cloud.r-project.org')"    
+# # RUN R -e "install.packages('devtools', repos = 'http://cran.us.r-project.org')"
+# # RUN R -e "install.packages('littler', repos = 'http://cran.us.r-project.org')"
+# # RUN R -e "install.packages('devtools', repos = 'https://cloud.r-project.org')"
+# # RUN R -e "install.packages('littler', repos = 'https://cloud.r-project.org')"
+# RUN R -e "install.packages(c('devtools'), dependencies = TRUE, repo = '$CRAN')"
+# #
+# RUN R -e "install.packages(c('class'), dependencies = TRUE, repo = '$CRAN')"
+# #
+# RUN R -e "install.packages(c('zoo'), dependencies = TRUE, repo = '$CRAN')"
+# # 
+# RUN R -e "install.packages(c('lattice'), dependencies = TRUE, repo = '$CRAN')"
+# # 
+# RUN R -e "install.packages(c('littler'), dependencies = TRUE, repo = '$CRAN')"
+# #
+# RUN R -e "install.packages(c('hexbin'), dependencies = TRUE, repo = '$CRAN')"
+# # 
+# RUN R -e "install.packages(c('rJava'), dependencies = TRUE, repo = '$CRAN')"
+# #
+# RUN R -e "install.packages(c('RJDBC'), dependencies = TRUE, repo = '$CRAN')"
+# #
+# RUN R -e "install.packages(c('shiny'), dependencies = TRUE, repo = '$CRAN')"
+# #
+# RUN R -e "install.packages(c('shinydashboard'), dependencies = TRUE, repo = '$CRAN')"
+# #
+# RUN R -e "install.packages(c('curl'), dependencies = TRUE, repo = '$CRAN')"
+# #
+# RUN R -e "install.packages(c('httr'), dependencies = TRUE, repo = '$CRAN')"
+# #
+# RUN R -e "install.packages(c('jsonlite'), dependencies = TRUE, repo = '$CRAN')"
+# #
+# RUN R -e "install.packages(c('DT'), dependencies = TRUE, repo = '$CRAN')"
+# #
+# RUN R -e "install.packages(c('shinyalert'), dependencies = TRUE, repo = '$CRAN')"
+# #
+# RUN R -e "install.packages(c('stringr'), dependencies = TRUE, repo = '$CRAN')"
+# #
+# RUN R -e "install.packages(c('dplyr'), dependencies = TRUE, repo = '$CRAN')"
+# #
+# RUN R -e "install.packages(c('plotly'), dependencies = TRUE, repo = '$CRAN')"
+# #
+# RUN R -e "install.packages(c('rmarkdown'), dependencies = TRUE, repo = '$CRAN')"
+# #
+# RUN R -e "install.packages(c('leaflet'), dependencies = TRUE, repo = '$CRAN')"
+# #
+# RUN R -e "install.packages(c('htmlwidgets'), dependencies = TRUE, repo = '$CRAN')"
+# #
+# RUN R -e "install.packages(c('data.table'), dependencies = TRUE, repo = '$CRAN')"
+# #
+# RUN R -e "install.packages(c('shinyjs'), dependencies = TRUE, repo = '$CRAN')"
+# #
+# RUN R -e "install.packages(c('DBI'), dependencies = TRUE, repo = '$CRAN')"
+# #
+# RUN R -e "install.packages(c('plumber'), dependencies = TRUE, repo = '$CRAN')"
+# #
