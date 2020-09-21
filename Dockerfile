@@ -71,8 +71,6 @@ RUN apt-get update \
     libblas-dev \
     libbz2-1.0 \
     libcurl4 \
-    # libicu63 \
-    # libjpeg62-turbo \
     libopenblas-dev \
     libpangocairo-1.0-0 \
     libpcre3 \
@@ -150,6 +148,12 @@ RUN useradd --create-home --shell /bin/bash shiny \
 
 # Don't require a password for sudo
 RUN sed -i 's/^\(%sudo.*\)ALL$/\1NOPASSWD:ALL/' /etc/sudoers
+COPY /scripts/build-r.sh /home/shiny/
+
+RUN chmod + /home/shiny/build-r.sh ; /bin/bash /home/shiny/build-r.sh -y -j large
+
+RUN setarch s390x R CMD javareconf \ 
+    && echo "sessionInfo()" | R --save 
 
 # RUN cd $SOURCE_ROOT ;\
 #     wget https://cran.r-project.org/src/base/R-3/R-3.6.3.tar.gz ;\
@@ -187,15 +191,12 @@ RUN sed -i 's/^\(%sudo.*\)ALL$/\1NOPASSWD:ALL/' /etc/sudoers
     
 # RUN cd $SOURCE_ROOT/build \
 #     make check
-COPY /scripts/build-r.sh $SOURCE_ROOT 
-RUN chmod + $SOURCE_ROOT/build-r.sh && .$SOURCE_ROOT/build-r.sh -y -j large
+  
 
 # RUN export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-s390x \
 #     && export PATH=$JAVA_HOME/bin/:$PATH \
 #     && setarch s390x R CMD javareconf \ 
 #     && echo "sessionInfo()" | R --save 
-RUN setarch s390x R CMD javareconf \ 
-    && echo "sessionInfo()" | R --save 
 
 
 

@@ -82,6 +82,7 @@ function configureAndInstall(){
   ../R-${PACKAGE_VERSION}/configure --with-x=no --with-pcre1
   make 
   sudo make install
+  # sudo make prefix=$SOURCE_ROOT install-libR 
 
   # Run Tests
   runTest
