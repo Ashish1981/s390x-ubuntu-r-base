@@ -185,7 +185,7 @@ RUN cd $SOURCE_ROOT ;\
     && tar zxvf R-${R_BASE_VERSION}.tar.gz && cd R-${R_BASE_VERSION} \
     && ./configure --with-x=no --with-pcre1 && make  \
     # && make install \
-    make prefix=$SOURCE_ROOT install-libR \
+    && make prefix=$SOURCE_ROOT install-libR \
     && locale-gen "en_US.UTF-8" \
     && locale-gen "en_GB.UTF-8"
 
