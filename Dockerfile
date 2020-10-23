@@ -213,14 +213,15 @@ RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
 #     texlive-fonts-recommended \ 
 #     texlive-fonts-extra 
     
-RUN cd $SOURCE_ROOT/build \
-    make check
+# RUN cd $SOURCE_ROOT/build \
+#     make check
   
 
 RUN export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-s390x \
     && export PATH=$JAVA_HOME/bin/:$PATH \
     && setarch s390x R CMD javareconf \ 
     && echo "sessionInfo()" | R --save 
+
 
 
 
