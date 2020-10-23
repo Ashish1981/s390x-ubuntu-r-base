@@ -1,6 +1,6 @@
 FROM docker.io/s390x/ubuntu:20.04
 
-ENV R_BASE_VERSION 4.0.2
+ENV R_BASE_VERSION 4.0.3
 ENV SOURCE_ROOT /home/shiny 
 ENV CRAN=${CRAN:-https://cloud.r-project.org} \ 
     LC_ALL=en_US.UTF-8 \
