@@ -12,14 +12,14 @@ ENV CRAN=${CRAN:-https://cloud.r-project.org} \
 RUN set -eux; \
     \
     savedAptMark="$(apt-mark showmanual)"; \
-    apt-get update; \
-    apt-get install -y --no-install-recommends ; \
+    apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    # apt-get install -y --no-install-recommends ; \
     apt-get upgrade -y \
     apt-utils
 # Need this to add R repo
-RUN apt-get update && apt-get install -y software-properties-common
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common
 # Install basic stuff and R
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     sudo \
     git \
     vim-tiny \
@@ -59,7 +59,7 @@ RUN java -version && \
     javac -version
 
 RUN apt-get update \
-    && apt-get install -y  \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y  \
     sudo \
     bash-completion \
     ca-certificates \
@@ -117,7 +117,7 @@ RUN apt-get update \
     zlib1g-dev" \
     && apt-get install -y  $BUILDDEPS
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     supervisor \
     git-core \
     libsodium-dev \
@@ -132,6 +132,21 @@ RUN apt-get update && apt-get install -y \
     ccache \
     libxml2-dev
 
+# Install dependencies
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    g++ \
+    gcc \
+    gfortran \
+    libcurl4-openssl-dev \
+    libx11-dev \
+    locales \
+    make \
+    openjdk-11-jdk \
+    r-base \
+    ratfor \
+    tar \
+    wget
+    
 # Set a default user. Available via runtime flag `--user shiny`
 # Add user to 'staff' group, granting them write privileges to /usr/local/lib/R/site.library
 # User should also have & own a home directory (for rstudio or linked volumes to work properly).
