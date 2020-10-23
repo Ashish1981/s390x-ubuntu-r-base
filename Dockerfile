@@ -15,7 +15,7 @@ RUN set -eux; \
     # apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     apt-get install -y --no-install-recommends ; \
     apt-get upgrade -y \
-    apt-utils
+    apt-get install -y apt-utils
 # Need this to add R repo
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common
 # Install basic stuff and R
